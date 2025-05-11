@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Mother's Day</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;500;600&family=Great+Vibes&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: rgba(255,255,255,0.85);
+      --accent: #d17b88;
+      --text-dark: #333;
+    }
+
+    * { box-sizing: border-box; }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100%;
+      background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
+        url('https://images.unsplash.com/photo-1526045612212-fc6927b67982?auto=format&fit=crop&w=1200&q=60') center/cover no-repeat;
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card {
+      background: var(--primary);
+      border-radius: 20px;
+      padding: 3rem 2rem;
+      margin: auto;
+      max-width: 800px;
+      width: 95%;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.5rem;
+      margin: 0;
+      color: var(--accent);
+    }
+
+    h2 { margin: 1rem 0 0.5rem; font-weight: 400; }
+
+    .intro { margin-top: 1.2rem; font-size: 1.05rem; color: #555; line-height: 1.55; }
+
+    .quote {
+      font-style: italic;
+      margin-top: 2rem;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      min-height: 4.2rem;
+      transition: opacity 0.4s ease;
+    }
+
+    .fade-out { opacity: 0; }
+    .fade-in  { opacity: 1; }
+
+    button {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 1.8rem;
+      transition: transform 0.15s ease, box-shadow 0.3s ease;
+    }
+    button:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); }
+
+    .audio { margin-top: 2.5rem; }
+    audio { width: 100%; max-width: 420px; border-radius: 14px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+
+    footer { padding: 1.5rem 1rem 2rem; text-align: center; font-size: 0.9rem; color: #555; }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Happy Mother's Day, Mum!</h1>
+    <h2>You are truly a blessing.</h2>
+
+    <p class="intro">I built this little page as a gift just for you. Tap “Next Verse” below to reveal heartfelt scriptures chosen to celebrate the amazing mother you are – and let this special song play while you read.</p>
+
+    <div id="scripture" class="quote fade-in">
+      "Her children arise and call her blessed; her husband also, and he praises her." – Proverbs 31:28-29
+    </div>
+
+    <button onclick="nextVerse()">Next Verse</button>
+
+    <div class="audio">
+      <h3 style="margin-bottom:0.6rem">♫ A Song From My Heart</h3>
+      <!-- Local / original song file -->
+      <audio id="audioPlayer" controls preload="none">
+        <!-- Replace `my-mothers-song.mp3` with your own file name placed in the same folder as this HTML -->
+        <source src="my-mothers-song.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </main>
+
+  <footer>
+    With all my love,<br />Brian
+  </footer>
+
+  <script>
+    // ✨ Mother’s Day + Love–focused verses (15 total)
+    const verses = [
+      '"Her children arise and call her blessed; her husband also, and he praises her." – Proverbs 31:28-29',
+      '"Honor her for all that her hands have done, and let her works bring her praise at the city gate." – Proverbs 31:31',
+      '"May your father and mother rejoice; may she who gave you birth be joyful!" – Proverbs 23:25',
+      '"As a mother comforts her child, so will I comfort you." – Isaiah 66:13',
+      '"I have no greater joy than to hear that my children are walking in the truth." – 3 John 1:4',
+      '"She opens her mouth with wisdom, and the teaching of kindness is on her tongue." – Proverbs 31:26',
+      '"The Lord bless you, my daughter!" – Ruth 3:10',
+      '"A wife of noble character who can find? She is worth far more than rubies." – Proverbs 31:10',
+      '"For you created my inmost being; you knit me together in my mother\'s womb." – Psalm 139:13',
+      '"His mother treasured all these things in her heart." – Luke 2:51',
+      '"Love is patient, love is kind. It does not envy, it does not boast, it is not proud." – 1 Corinthians 13:4',
+      '"And now these three remain: faith, hope and love. But the greatest of these is love." – 1 Corinthians 13:13',
+      '"Above all, love each other deeply, because love covers over a multitude of sins." – 1 Peter 4:8',
+      '"Let all that you do be done in love." – 1 Corinthians 16:14',
+      '"We love because He first loved us." – 1 John 4:19'
+    ];
+
+    let index = 0;
+    const scriptureEl = document.getElementById('scripture');
+    const audioEl = document.getElementById('audioPlayer');
+
+    function nextVerse() {
+      // Fade out current verse
+      scriptureEl.classList.remove('fade-in');
+      scriptureEl.classList.add('fade-out');
+
+      // Swap after fade
+      setTimeout(() => {
+        index = (index + 1) % verses.length;
+        scriptureEl.textContent = verses[index];
+        scriptureEl.classList.remove('fade-out');
+        scriptureEl.classList.add('fade-in');
+      }, 400);
+
+      // Play audio on first click (or resume if paused)
+      if (audioEl.paused) {
+        audioEl.play();
+      }
+    }
+  </script>
+</body>
+</html>
